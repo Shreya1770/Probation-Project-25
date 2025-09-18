@@ -6,15 +6,13 @@ import 'provider/cart_provider.dart';
 
 import 'screens/splash_screen.dart';
 import 'screens/product_detail_screen.dart';
-import 'screens/cart_screen.dart'; // ✅ Use relative import
+import 'screens/cart_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -23,7 +21,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
         title: 'Shopping App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -31,7 +28,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         routes: {
           ProductDetailScreen.routeName: (_) => ProductDetailScreen(),
-          CartScreen.routeName: (_) => const CartScreen(),
+          CartScreen.routeName: (_) => CartScreen(),
         },
       ),
     );
