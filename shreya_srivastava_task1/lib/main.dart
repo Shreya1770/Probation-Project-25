@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shopping_app/pages/into_pages.dart';
+import 'pages/cart_page.dart';
 
-import 'provider/products_provider.dart';
-import 'provider/cart_provider.dart';
+import 'pages/shop_page.dart';
+import 'themes/light_mode.dart'; // ✅ adjust the path
 
-import 'screens/splash_screen.dart';
-import 'screens/product_detail_screen.dart';
-import 'screens/cart_screen.dart';
+
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ProductsProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-      ],
-      child: MaterialApp(
-        title: 'Shopping App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: SplashScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (_) => ProductDetailScreen(),
-          CartScreen.routeName: (_) => CartScreen(),
-        },
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner:false,
+      home: const Intropage(),
+      theme:lightmode,
+      routes: {
+
+        '/intro_page':(context) =>const Intropage(),
+        '/shop_page':(context) =>const ShopPage(),
+        '/cart_page':(context) =>const CartPage(),
+      },
     );
   }
 }
+    

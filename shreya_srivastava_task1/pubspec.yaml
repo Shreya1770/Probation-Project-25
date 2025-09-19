@@ -24,4 +24,4 @@ flutter:
 
   # Uncomment below if you want to include custom images (e.g., splash screen logo)
   assets:
-    - pics/logo.jpg
+    - pics/
