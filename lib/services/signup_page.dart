@@ -2,32 +2,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/view/home.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String email='', password='';
+class _SignUpState extends State<SignUp> {
+  String email='', password='',name="";
   TextEditingController mailcontroller= new TextEditingController();
   TextEditingController passwordcontroller = new TextEditingController();
+  TextEditingController namecontroller = new TextEditingController();
 
   final _formkey=GlobalKey<FormState>();
-  userLogin() async{
+  registration() async{
     if(password!= "" && mailcontroller.text!=""){
       try{
-        UserCredential userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Successfully',style: TextStyle(fontSize: 20.0),)));
+        UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registered Successfully',style: TextStyle(fontSize: 20.0),)));
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
       } on FirebaseAuthException catch(e){
-        if(e.code=='user-not-found'){
+        if(e.code=='weak-password'){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,
-          content: Text('No User Found With That Email',style: TextStyle(fontSize: 20.0),), ));
+          content: Text('Password Too Weak',style: TextStyle(fontSize: 20.0),), ));
         }
-        else if(e.code=='wrong-password'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Wrong Password Provided By User', style: TextStyle(fontSize: 20.0),)));
+        else if(e.code=='email-already-in-use'){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Account Already Exist', style: TextStyle(fontSize: 20.0),)));
         }
       }
 
@@ -41,23 +42,58 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         child: Column(
           children: [
+            SizedBox(height: 10,),
             Container(
               width: MediaQuery.of(context).size.width,
+              
               child: Image.asset(
-                'assets/loginimage.jpg',
+                'assets/signup.jpg',
                 height: 400,
                 width: 400,
                 fit: BoxFit.cover,
               ),
             ),
             SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
             Padding(padding: const EdgeInsets.only(left: 20.0,right: 20.0),
             child: Form(
               key: _formkey,
               child: Column(
                 children: [
+                   SizedBox(height: 10.0,),
+
+                   Container(
+                    padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFedf0f8),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: const Color.fromARGB(255, 23, 71, 154), width: 2),
+
+                    ),
+                    child: TextFormField(
+                      validator: (value){
+                        if(value==null||value.isEmpty){
+                          return 'Please Enter Name';
+                        }
+                        return null;
+                      },
+                      controller: namecontroller,
+                      
+                      decoration: InputDecoration(
+                       hintText: "Name",
+                       hintStyle: TextStyle(
+                        color: Color(0xFFb2b7bf),
+                        fontSize: 18.0
+                       )
+
+                      ),
+                      
+                    ),
+                   
+                  ),
+                  SizedBox(height: 10.0,),
+
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
                     decoration: BoxDecoration(
@@ -85,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                    
                   ),
-                   SizedBox(height: 30.0,),
+                   SizedBox(height: 10.0,),
 
                    Container(
                     padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
@@ -116,7 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                    
                   ),
-                   SizedBox(height: 30.0,),
+                   SizedBox(height: 10.0,),
+                   
                     GestureDetector(
                   onTap: (){
                     if(_formkey.currentState!.validate()){
@@ -125,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                         password=passwordcontroller.text;
                       });
                     }
-                    userLogin();
+                    registration();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 30,vertical: 20),
