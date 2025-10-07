@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quizapp/services/login_page.dart';
 import 'package:quizapp/view/home.dart';
 
 class SignUp extends StatefulWidget {
@@ -20,15 +21,21 @@ class _SignUpState extends State<SignUp> {
     if(password!= "" && mailcontroller.text!=""){
       try{
         UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registered Successfully',style: TextStyle(fontSize: 20.0),)));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registered Successfully',style: TextStyle(fontSize: 20.0),),
+        duration: Duration(seconds: 2),));
+
+        await Future.delayed(const Duration(seconds: 2));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+
       } on FirebaseAuthException catch(e){
         if(e.code=='weak-password'){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,
-          content: Text('Password Too Weak',style: TextStyle(fontSize: 20.0),), ));
+          content: Text('Password Too Weak',style: TextStyle(fontSize: 20.0),),
+          duration: Duration(seconds: 2), ));
         }
         else if(e.code=='email-already-in-use'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Account Already Exist', style: TextStyle(fontSize: 20.0),)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Account Already Exist', style: TextStyle(fontSize: 20.0),),
+          duration: Duration(seconds: 2),));
         }
       }
 
@@ -48,20 +55,20 @@ class _SignUpState extends State<SignUp> {
               
               child: Image.asset(
                 'assets/signup.jpg',
-                height: 400,
-                width: 400,
+                height: 300,
+                width: 300,
                 fit: BoxFit.cover,
               ),
             ),
             SizedBox(
-              height: 10.0,
+              height: 15.0,
             ),
             Padding(padding: const EdgeInsets.only(left: 20.0,right: 20.0),
             child: Form(
               key: _formkey,
               child: Column(
                 children: [
-                   SizedBox(height: 10.0,),
+                   SizedBox(height: 15.0,),
 
                    Container(
                     padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
@@ -92,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                    
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(height: 15.0,),
 
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
@@ -121,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                    
                   ),
-                   SizedBox(height: 10.0,),
+                   SizedBox(height: 15.0,),
 
                    Container(
                     padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 30.0),
@@ -152,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                    
                   ),
-                   SizedBox(height: 10.0,),
+                   SizedBox(height: 15.0,),
                    
                     GestureDetector(
                   onTap: (){
@@ -160,6 +167,7 @@ class _SignUpState extends State<SignUp> {
                       setState(() {
                         email=mailcontroller.text;
                         password=passwordcontroller.text;
+                        name=namecontroller.text;
                       });
                     }
                     registration();
@@ -176,7 +184,17 @@ class _SignUpState extends State<SignUp> {
                     child:Text('Sign In',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold,),),
                   ),
                   
-                )
+                ),
+                SizedBox(height: 15.0,),
+
+               
+               ElevatedButton(
+                onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+               },
+               child: Text('Already have an account?Login In',
+               style: TextStyle( fontSize:20,color:  Colors.grey,),),),
+
 
                 ],
                

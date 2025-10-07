@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quizapp/services/signup_page.dart';
 import 'package:quizapp/view/home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,15 +20,24 @@ class _LoginPageState extends State<LoginPage> {
     if(password!= "" && mailcontroller.text!=""){
       try{
         UserCredential userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Successfully',style: TextStyle(fontSize: 20.0),)));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Successfully',style: TextStyle(fontSize: 20.0),),
+        duration: Duration(seconds: 2),));
+
+        await Future.delayed(const Duration(seconds: 2));
+
+
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+
       } on FirebaseAuthException catch(e){
         if(e.code=='user-not-found'){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,
-          content: Text('No User Found With That Email',style: TextStyle(fontSize: 20.0),), ));
+          content: Text('No User Found With That Email',style: TextStyle(fontSize: 20.0),),
+          duration: Duration(seconds: 2), ));
         }
         else if(e.code=='wrong-password'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Wrong Password Provided By User', style: TextStyle(fontSize: 20.0),)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:Colors.orangeAccent,content: Text('Wrong Password Provided By User', style: TextStyle(fontSize: 20.0),
+          ),
+          duration: Duration(seconds: 2),));
         }
       }
 
@@ -136,10 +146,19 @@ class _LoginPageState extends State<LoginPage> {
  
 
                     ),
-                    child:Text('Sign In',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold,),),
+                    child:Text('Login',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold,),),
                   ),
                   
-                )
+                ),
+                SizedBox(height: 15.0,),
+
+                ElevatedButton(
+                onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUp()));
+               },
+               child: Text('Do not have an account?Create Account',
+               style: TextStyle(fontSize:20,color:  Colors.grey,),
+               ),),
 
                 ],
                
