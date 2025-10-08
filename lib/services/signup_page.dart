@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/services/login_page.dart';
-import 'package:quizapp/view/home.dart';
+import 'package:quizapp/view/quiz_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
         duration: Duration(seconds: 2),));
 
         await Future.delayed(const Duration(seconds: 2));
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>QuizScreen()));
 
       } on FirebaseAuthException catch(e){
         if(e.code=='weak-password'){
