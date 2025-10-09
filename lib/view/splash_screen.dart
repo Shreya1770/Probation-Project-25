@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:quizapp/services/login_page.dart';
 import 'package:quizapp/services/signup_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,29 +25,32 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 47, 59, 186),
+      backgroundColor: Color(0xFF0B1E4E),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/quiz.jpg',
+            Image.asset('assets/logo.jpg',
             width: 400,
             height: 400,
             fit: BoxFit.contain,
             ),
             SizedBox(height: 20,
             ),
-            Text('QuizQuest',
+            Text('Where Every Question is an Adventure!',
             style: TextStyle(
               color:Colors.white,
-              fontSize: 40,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             ),
             SizedBox(
               height: 20,
             ),
-             Text("Let's Play",
+             Text("Ready. Set. Quest!",
             style: TextStyle(
               color:Colors.white,
               fontSize: 40,
